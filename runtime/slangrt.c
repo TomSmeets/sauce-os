@@ -346,18 +346,14 @@ slang_bool_t slangrt_unbox_bool(void* p1)
 
 void* slangrt_box_int64(slang_int64_t value)
 {
-    intptr_t p2 = value;
-    // TODO: we loose 1 bit here!
-    // IDEA: alloc 8 bytes on the heap
-    p2 = (p2 << 1) | 1;
-    return (void*)p2;
+    slang_float64_t* p1 = rt_malloc(sizeof(slang_int64_t));
+    *p1 = value;
+    return p1;
 }
 
 slang_int64_t slangrt_unbox_int64(void* p1)
 {
-    intptr_t p2 = (intptr_t)p1;
-    p2 = p2 >> 1;
-    return (slang_int64_t)p2;
+    return *(slang_int64_t *)p1;
 }
 
 void* slangrt_box_uint8(slang_uint8_t value)
